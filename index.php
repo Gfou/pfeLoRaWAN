@@ -39,7 +39,7 @@
         if(!empty($_POST['id']) AND !empty($_POST['localisation'])){  
             $reponse=$bdd->prepare('SELECT *
                                     FROM balises
-                                    WHERE id_balise = :id AND Localisation = :localisation');
+                                    WHERE id = :id AND Localisation = :localisation');
             $reponse->execute(array('id' => $_POST['id'], 'localisation'=>$_POST['localisation']));
             
         }
@@ -47,7 +47,7 @@
         elseif(!empty($_POST['id']) AND empty($_POST['localisation'])){  
             $reponse=$bdd->prepare('SELECT *
                                     FROM balises
-                                    WHERE ID = :id');
+                                    WHERE id = :id');
             $reponse->execute(array('id' => $_POST['id']));
             
         }

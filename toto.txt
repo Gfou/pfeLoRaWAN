@@ -1,31 +1,20 @@
+1:0:0:0
+ niveau: 
 žée
-1:1:1:1
-OUIžée
-1:1:1:1
-OUI1:1:1:1
-OUI1:1:1:1
-OUI1:1:1:1
-OUI1:1:1:1
-OUI1:1:1:1
-OUI1:1:1:1
-OUI1:1:1:1
-OUI1:1:1:1
-OUI1:1:1:1
-OUI1:1:1:1
-OUI1:1:1:1
-OUI1:1:1:1
-OUI1:1:1:1
-OUI1:1:1:1
-OUI1:1:1:1
-OUI1:1:1:1
-OUI1:1:1:1
-OUI1:1:1:1
-OUI1:1:1:1
-OUI1:1:1:1
-OUI1:1:1:1
-OUI1:1:1:1
-OUI1:1:1:1
-OUI1:1:1:1
-OUIžée
-1:1:1:1
-OUI
+ niveau: 
+žée
+ niveau: 
+1:0:0:1
+ niveau: 
+žée
+ niveau: 
+1:0:0:1
+ niveau: 
+1:1:1:0
+OUI niveau: 20
+žée
+ niveau: 
+žée
+1:1:1:0
+1:1:1:0
+žée

@@ -23,7 +23,7 @@ if(preg_match($regex,$decoded,$result)){
 	if($result[2]==1){
 		$inondee="OUI";
 		$niveau=10;
-		if($result[3]==1)
+		if($result[3]==1 && $result[4]==0)
 			$niveau=20;
 		elseif($result[3]==1 && $result[4]==1)
 			$niveau=30;
@@ -35,19 +35,24 @@ if(preg_match($regex,$decoded,$result)){
 	}
 }
 //echo $inondee;
-fwrite($fp,$inondee);
+//fwrite($fp,$inondee);
 //fwrite($fp,$inondee . " niveau: " . $niveau . "\r\n");
 fclose($fp);
 	
 	
-//     try{
-     // On se connecte a  postgres
-	//$bdd = new PDO("pgsql:host=localhost;port=5432;dbname=pfe;user=root;password=glopglop");
- //    }
-   //  catch(Exception $e){
+try{
+	//On se connecte a  postgres
+	$bdd = new PDO("pgsql:host=localhost;port=5432;dbname=pfe;user=root;password=glopglop");
+}
+catch(Exception $e){
      // En cas d'erreur, on affiche un message et on arrête tout
-     //   die('Erreur : '.$e->getMessage());
-    // }
+        die('Erreur : '.$e->getMessage());
+}
+
+$request=$bdd->prepare('UPDATE balises 
+	       		SET inondee=:in, niveau=:niv  
+	       		WHERE id=:id');
+$request->execute(array('in' => $inondee, 'niv' => $niveau, 'id' => $id));
 ?>
 
 
