@@ -114,8 +114,7 @@
             if(preg_match($regex,$_POST['plageDebut'],$resultat)){
                 $anneeDebut=$resultat[1];
                 $moisDebut=$resultat[2];
-                $jourDebut=$resultat[3];
-            
+		$jourDebut=$resultat[3];
             }
             
             //cas où il y a une date de debut, une id et une localisation
@@ -130,7 +129,7 @@
             elseif(!empty($_POST['id']) AND empty($_POST['localisation'])){
                 $reponse=$bdd->prepare('SELECT h.ID, h.id_balise, h.Date, b.Pays, b.Ville, b.Localisation, h.Niveau, h.Inondee 
                                         FROM historique_balise h, balises b 
-                                        WHERE id_balise = :id AND b.ID = h.id_balise AND DAY(Date)>= :jourDebut AND MONTH(Date)>= :moisDebut AND YEAR(Date)>= :anneeDebut');
+                                        WHERE h.id_balise = :id AND b.ID = h.id_balise AND date_part(\'day\',h.date)>=:jourDebut AND date_part(\'month\',h.date)>= :moisDebut AND date_part(\'year\',h.date)>= :anneeDebut');
                 $reponse->execute(array('id'=> $_POST['id'], 'jourDebut'=>$jourDebut, 'moisDebut'=>$moisDebut, 'anneeDebut'=>$anneeDebut));
             }
 
