@@ -1,22 +1,22 @@
 
 <?php
-//header("content-type: application/json");
-//$json = file_get_contents("php://input");
-//$obj = json_decode($json);
-//$decoded = base64_decode(json_encode($obj->data));
+header("content-type: application/json");
+$json = file_get_contents("php://input");
+$obj = json_decode($json);
+$decoded = base64_decode(json_encode($obj->data));
 
-$fp = @fopen("toto.txt","a");
+//$fp = @fopen("toto.txt","a");
 //fwrite($fp,$decoded);
 //fwrite($fp,"\r\n");
 //fclose($fp);
 
 
 //Ici on recupere le payload et on le decompose en id, niveau, inondee (format tram id:niveau1:niveau2:niveau3)
-$id=1;
+$id;
 $niveau;
 $inondee;
 $result;
-$decoded="1:1:1:0"; //test
+$decoded;
 
 $regex="#^([0-9]+):([0-1]{1}):([0-1]{1}):([0-1]{1})$#";
 if(preg_match($regex,$decoded,$result)){
@@ -35,11 +35,6 @@ if(preg_match($regex,$decoded,$result)){
 			
 	}
 }
-//echo $inondee;
-//fwrite($fp,$inondee);
-//fwrite($fp,$inondee . " niveau: " . $niveau . "\r\n");
-//fclose($fp);
-	
 	
 try{
 	//On se connecte a  postgres
@@ -64,14 +59,11 @@ $requete=$bdd->prepare('SELECT MAX(date) AS max_date
 			WHERE id_balise=:id');
 $requete->execute(array('id' => $id));
 $resultat=$requete->fetch();
-fwrite($fp,$ajrd." ".$resultat['max_date']."\r\n");
 if($ajrd>$resultat['max_date']  || $resultat==FALSE){
 	$requete=$bdd->prepare('INSERT INTO historique_balise
 				VALUES (DEFAULT,:id,:d,:niv,:in)');
 	$requete->execute(array('id'=>$id,'d'=>$ajrd, 'niv'=>$niveau, 'in'=>$inondee));
-	fwrite($fp,"tototot");
 }
-fclose($fp);
 
 ?>
 

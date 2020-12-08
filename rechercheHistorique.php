@@ -51,9 +51,9 @@
 
         //cas où il y a seulement une ID
         elseif(!empty($_POST['id']) AND empty($_POST['localisation']) AND empty($_POST['plageDebut']) AND empty($_POST['plageFin'])){
-            $reponse=$bdd->prepare('SELECT h.ID, h.id_balise, h.Date, b.Pays, b.Ville, b.Localisation, h.Niveau, h.Inondée
+            $reponse=$bdd->prepare('SELECT h.id, h.id_balise, h.date, b.pays, b.ville, b.localisation, h.niveau, h.inondee
                                     FROM historique_balise h, balises b
-                                    WHERE id_balise = :id AND b.ID = h.id_balise');
+                                    WHERE id_balise = :id AND b.id = h.id_balise');
             $reponse->execute(array('id' => $_POST['id']));
         }
 
@@ -186,14 +186,14 @@
         while($donnees=$reponse->fetch()){?>
             <tr>
              <th scope="row"><?php echo $indice ?></th>
-                <td><?php echo $donnees['ID']?></td>
+                <td><?php echo $donnees['id']?></td>
                 <td><?php echo $donnees['id_balise']?></td>
-                <td><?php echo $donnees['Date']?></td>
-                <td><?php echo $donnees['Pays']?></td>
-                <td><?php echo $donnees['Ville']?></td>
-                <td><?php echo $donnees['Localisation']?></td>
-                <td><?php echo $donnees['Niveau']?></td>
-                <td><?php echo $donnees['Inondée']?></td>
+                <td><?php echo $donnees['date']?></td>
+                <td><?php echo $donnees['pays']?></td>
+                <td><?php echo $donnees['ville']?></td>
+                <td><?php echo $donnees['localisation']?></td>
+                <td><?php echo $donnees['niveau']?></td>
+                <td><?php echo $donnees['inondee']?></td>
             </tr>
 
         <?php   
