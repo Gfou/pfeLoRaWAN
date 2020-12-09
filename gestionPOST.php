@@ -53,7 +53,7 @@ $requete->execute(array('in'=>$inondee, 'niv'=>$niveau, 'id'=>$id));
 
 
 //on regarde si la dernière entre en base a plus de 24h, si oui on enregistre
-$ajrd=date("Y-d-m");
+$ajrd=date("Y-m-d");
 $requete=$bdd->prepare('SELECT MAX(date) AS max_date
 			FROM historique_balise
 			WHERE id_balise=:id');
