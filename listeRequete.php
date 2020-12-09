@@ -60,18 +60,4 @@ $req12noIdLocDateFin='SELECT h.ID, h.id_balise, h.Date, b.Pays, b.Ville, b.Local
                       WHERE Localisation = :localisation AND b.ID = h.id_balise AND date_part(\'day\',h.Date)<= :jourFin  
 		      AND date_part(\'month\',h.Date) <= :moisFin  AND date_part(\'year\',h.Date) <= :anneeFin';
 
-$arrayReq1=array('id' => $_POST['id'], 'localisation'=>$_POST['localisation']);
-$arrayReq2=array('id' => $_POST['id']);
-$arrayReq3=array('localisation' => $_POST['localisation']);
-$arrayReq4=array('localisation' => $_POST['localisation'], 'id'=> $_POST['id'], 'jourDebut'=>$jourDebut, 'jourFin'=>$jourFin, 'moisDebut'=>$moisDebut, 'moisFin'=>$moisFin, 'anneeDebut'=>$anneeDebut, 'anneeFin'=>$anneeFin);
-
-$arrayReq5=array('id'=> $_POST['id'], 'jourDebut'=>$jourDebut, 'jourFin'=>$jourFin, 'moisDebut'=>$moisDebut, 'moisFin'=>$moisFin, 'anneeDebut'=>$anneeDebut, 'anneeFin'=>$anneeFin);
-
-$arrayreq6=array('localisation' => $_POST['localisation'], 'jourDebut'=>$jourDebut, 'jourFin'=>$jourFin, 'moisDebut'=>$moisDebut, 'moisFin'=>$moisFin, 'anneeDebut'=>$anneeDebut, 'anneeFin'=>$anneeFin);
-
-$arrayReq7=array('localisation' => $_POST['localisation'], 'id'=> $_POST['id'], 'jourDebut'=>$jourDebut, 'moisDebut'=>$moisDebut, 'anneeDebut'=>$anneeDebut);
-$arrayReq8=array('id'=> $_POST['id'], 'jourDebut'=>$jourDebut, 'moisDebut'=>$moisDebut, 'anneeDebut'=>$anneeDebut);
-$arrayReq9=array('localisation' => $_POST['localisation'], 'jourDebut'=>$jourDebut, 'moisDebut'=>$moisDebut, 'anneeDebut'=>$anneeDebut);
-$arrayReq10=array('localisation' => $_POST['localisation'], 'id'=> $_POST['id'], 'jourFin'=>$jourFin,  'moisFin'=>$moisFin,  'anneeFin'=>$anneeFin);
-$arrayReq11=array('id'=> $_POST['id'], 'jourFin'=>$jourFin,  'moisFin'=>$moisFin, 'anneeFin'=>$anneeFin);
-$arrayReq12=array('localisation' => $_POST['localisation'], 'jourFin'=>$jourFin, 'moisFin'=>$moisFin, 'anneeFin'=>$anneeFin);
+?>

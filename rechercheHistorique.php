@@ -32,7 +32,7 @@
     
 
     try{
-	    // On se connecte à MySQL
+	    // On se connecte a postgres
 	$bdd = new PDO("pgsql:host=localhost;port=5432;dbname=pfe;user=root;password=glopglop");
     }
     catch(Exception $e){
@@ -40,28 +40,23 @@
         die('Erreur : '.$e->getMessage()); 
     }
 
-    if(!empty($_POST['id']) OR !empty($_POST['localisation'])){  
+    if(!empty($_POST['id']) OR !empty($_POST['localisation'])){
+	include("listeRequete.php");  
         //cas où il y a une ID et une Localisation
         if(!empty($_POST['id']) AND !empty($_POST['localisation']) AND empty($_POST['plageDebut']) AND empty($_POST['plageFin'])){  
-            $reponse=$bdd->prepare('SELECT h.ID, h.id_balise, h.Date, b.Pays, b.Ville, b.Localisation, h.Niveau, h.Inondee 
-                                    FROM balises b,historique_balise h 
-                                    WHERE id_balise = :id AND b.ID = h.id_balise AND Localisation = :localisation');
-            $reponse->execute(array('id' => $_POST['id'], 'localisation'=>$_POST['localisation']));
+            $reponse=$bdd->prepare($req1IdLocNoDate);
+            $reponse->execute(array('id'=>$_POST['id'], 'localisation'=>$_POST['localisation']));
         }
 
         //cas où il y a seulement une ID
         elseif(!empty($_POST['id']) AND empty($_POST['localisation']) AND empty($_POST['plageDebut']) AND empty($_POST['plageFin'])){
-            $reponse=$bdd->prepare('SELECT h.id, h.id_balise, h.date, b.pays, b.ville, b.localisation, h.niveau, h.inondee
-                                    FROM historique_balise h, balises b
-                                    WHERE id_balise = :id AND b.id = h.id_balise');
+            $reponse=$bdd->prepare($req2IdNoLocNoDate);
             $reponse->execute(array('id' => $_POST['id']));
         }
 
         //cas ou il y a seulement une Localisation
         elseif(empty($_POST['id']) AND !empty($_POST['localisation']) AND empty($_POST['plageDebut']) AND empty($_POST['plageFin'])){
-            $reponse=$bdd->prepare('SELECT h.ID, h.id_balise, h.Date, b.Pays, b.Ville, b.Localisation, h.Niveau, h.Inondee
-                                    FROM historique_balise h, balises b
-                                    WHERE Localisation = :localisation AND b.ID = h.id_balise');
+            $reponse=$bdd->prepare($req3NoIdLocNoDate);
             $reponse->execute(array('localisation' => $_POST['localisation']));
         }
 
@@ -83,25 +78,19 @@
 
             //cas où il y a une plage de date, une id et une localisation
             if(!empty($_POST['id']) AND !empty($_POST['localisation'])){
-                $reponse=$bdd->prepare('SELECT h.ID, h.id_balise, h.Date, b.Pays, b.Ville, b.Localisation, h.Niveau, h.Inondee
-                                        FROM historique_balise h, balises b 
-                                        WHERE Localisation = :localisation AND id_balise = :id AND b.ID = h.id_balise AND date_part(\'day\',h.Date)>= :jourDebut AND date_part(\'day\',h.Date)<= :jourFin  AND date_part(\'month\',h.Date)>= :moisDebut AND date_part(\'month\',h.Date) <= :moisFin AND date_part(\'year\',h.Date)>= :anneeDebut AND date_part(\'year\',h.Date) <= :anneeFin');
+                $reponse=$bdd->prepare($req4IdLocDate);
                 $reponse->execute(array('localisation' => $_POST['localisation'], 'id'=> $_POST['id'], 'jourDebut'=>$jourDebut, 'jourFin'=>$jourFin, 'moisDebut'=>$moisDebut, 'moisFin'=>$moisFin, 'anneeDebut'=>$anneeDebut, 'anneeFin'=>$anneeFin));
             }
 
             //cas où il y a une plage de date et une id
             elseif(!empty($_POST['id']) AND empty($_POST['localisation'])){
-                $reponse=$bdd->prepare('SELECT h.ID, h.id_balise, h.Date, b.Pays, b.Ville, b.Localisation, h.Niveau, h.Inondee 
-                                        FROM historique_balise h, balises b
-                                        WHERE id_balise = :id AND b.ID = h.id_balise AND date_part(\'day\',h.Date)>= :jourDebut AND date_part(\'day\',h.Date)<= :jourFin  AND date_part(\'month\',h.Date)>= :moisDebut AND date_part(\'month\',h.Date) <= :moisFin AND date_part(\'year\',h.Date)>= :anneeDebut AND date_part(\'year\',h.Date) <= :anneeFin');
+                $reponse=$bdd->prepare($req5IdNoLocDate); 
                 $reponse->execute(array('id'=> $_POST['id'], 'jourDebut'=>$jourDebut, 'jourFin'=>$jourFin, 'moisDebut'=>$moisDebut, 'moisFin'=>$moisFin, 'anneeDebut'=>$anneeDebut, 'anneeFin'=>$anneeFin));
             }
 
             //cas où il y a une plage de date et une localisation
             elseif(empty($_POST['id']) AND !empty($_POST['localisation'])){
-                $reponse=$bdd->prepare('SELECT h.ID, h.id_balise, h.Date, b.Pays, b.Ville, b.Localisation, h.Niveau, h.Inondee
-                                        FROM historique_balise h, balises b
-                                        WHERE Localisation = :localisation AND b.ID = h.id_balise AND date_part(\'day\',h.Date)>= :jourDebut AND date_part(\'day\',h.Date)<= :jourFin  AND date_part(\'month\',h.Date)>= :moisDebut AND date_part(\'month\',h.Date) <= :moisFin AND date_part(\'year\',h.Date)>= :anneeDebut AND date_part(\'year\',h.Date) <= :anneeFin');
+                $reponse=$bdd->prepare($req6NodIdLocDate);
                 $reponse->execute(array('localisation' => $_POST['localisation'], 'jourDebut'=>$jourDebut, 'jourFin'=>$jourFin, 'moisDebut'=>$moisDebut, 'moisFin'=>$moisFin, 'anneeDebut'=>$anneeDebut, 'anneeFin'=>$anneeFin));
             }
             
@@ -119,25 +108,19 @@
             
             //cas où il y a une date de debut, une id et une localisation
             if(!empty($_POST['id']) AND !empty($_POST['localisation'])){
-                $reponse=$bdd->prepare('SELECT h.ID, h.id_balise, h.Date, b.Pays, b.Ville, b.Localisation, h.Niveau, h.Inondee
-                                        FROM historique_balise h, balises b 
-                                        WHERE Localisation = :localisation AND b.ID = h.id_balise AND id_balise = :id AND date_part(\'day\',h.Date)>= :jourDebut AND date_part(\'month\',h.Date)>= :moisDebut AND date_part(\'year\',h.Date)>= :anneeDebut');
+                $reponse=$bdd->prepare($req7IdLocDateDebut);
                 $reponse->execute(array('localisation' => $_POST['localisation'], 'id'=> $_POST['id'], 'jourDebut'=>$jourDebut, 'moisDebut'=>$moisDebut, 'anneeDebut'=>$anneeDebut));
             }
 
             //cas où il y a une date de debut et une id
             elseif(!empty($_POST['id']) AND empty($_POST['localisation'])){
-                $reponse=$bdd->prepare('SELECT h.ID, h.id_balise, h.Date, b.Pays, b.Ville, b.Localisation, h.Niveau, h.Inondee 
-                                        FROM historique_balise h, balises b 
-                                        WHERE h.id_balise = :id AND b.ID = h.id_balise AND date_part(\'day\',h.date)>=:jourDebut AND date_part(\'month\',h.date)>= :moisDebut AND date_part(\'year\',h.date)>= :anneeDebut');
+                $reponse=$bdd->prepare($req8IdNoLocDateDebut); 
                 $reponse->execute(array('id'=> $_POST['id'], 'jourDebut'=>$jourDebut, 'moisDebut'=>$moisDebut, 'anneeDebut'=>$anneeDebut));
             }
 
             //cas où il y a une date de debut et une localisation
-            elseif(!empty($_POST['id']) AND !empty($_POST['localisation'])){
-                $reponse=$bdd->prepare('SELECT h.ID, h.id_balise, h.Date, b.Pays, b.Ville, b.Localisation, h.Niveau, h.Inondee 
-                                        FROM historique_balise h, balises b
-                                        WHERE Localisation = :localisation AND b.ID = h.id_balise AND date_part(\'day\',h.Date)>= :jourDebut AND date_part(\'month\',h.Date)>= :moisDebut AND date_part(\'year\',h.Date)>= :anneeDebut');
+            elseif(empty($_POST['id']) AND !empty($_POST['localisation'])){
+                $reponse=$bdd->prepare($req9NoIdLocDateDebut); 
                 $reponse->execute(array('localisation' => $_POST['localisation'], 'jourDebut'=>$jourDebut, 'moisDebut'=>$moisDebut, 'anneeDebut'=>$anneeDebut));
             } 
         }
@@ -154,25 +137,19 @@
 
             //cas où il y a une date de fin, une id et une localisation
             if(!empty($_POST['id']) AND !empty($_POST['localisation'])){
-                $reponse=$bdd->prepare('SELECT h.ID, h.id_balise, h.Date, b.Pays, b.Ville, b.Localisation, h.Niveau, h.Inondee 
-                                        FROM historique_balise h, balises b 
-                                        WHERE Localisation = :localisation AND b.ID = h.id_balise AND id_balise = :id AND date_part(\'day\',h.Date)<= :jourFin  AND date_part(\'month\',h.Date) <= :moisFin  AND date_part(\'year\',h.Date) <= :anneeFin');
+                $reponse=$bdd->prepare($req10IdLocDateFin);
                 $reponse->execute(array('localisation' => $_POST['localisation'], 'id'=> $_POST['id'], 'jourFin'=>$jourFin,  'moisFin'=>$moisFin,  'anneeFin'=>$anneeFin));
             }
 
             //cas où il y a une date de fin et une id
             elseif(!empty($_POST['id']) AND empty($_POST['localisation'])){
-                $reponse=$bdd->prepare('SELECT h.ID, h.id_balise, h.Date, b.Pays, b.Ville, b.Localisation, h.Niveau, h.Inondee 
-                                        FROM historique_balise h, balises b 
-                                        WHERE id_balise = :id AND b.ID = h.id_balise AND date_part(\'day\',h.Date)<= :jourFin   AND date_part(\'month\',h.Date) <= :moisFin  AND date_part(\'year\',h.Date) <= :anneeFin');
+                $reponse=$bdd->prepare($req11IdNoLocDateFin); 
                 $reponse->execute(array('id'=> $_POST['id'], 'jourFin'=>$jourFin,  'moisFin'=>$moisFin, 'anneeFin'=>$anneeFin));
             }
 
             //cas où il y a une date de fin et une localisation
-            elseif(!empty($_POST['id']) AND !empty($_POST['localisation'])){
-                $reponse=$bdd->prepare('SELECT h.ID, h.id_balise, h.Date, b.Pays, b.Ville, b.Localisation, h.Niveau, h.Inondee 
-                                        FROM historique_balise h, balises b 
-                                        WHERE Localisation = :localisation AND b.ID = h.id_balise AND date_part(\'day\',h.Date)<= :jourFin  AND date_part(\'month\',h.Date) <= :moisFin  AND date_part(\'year\',h.Date) <= :anneeFin');
+            elseif(empty($_POST['id']) AND !empty($_POST['localisation'])){
+                $reponse=$bdd->prepare($req12noIdLocDateFin); 
                 $reponse->execute(array('localisation' => $_POST['localisation'], 'jourFin'=>$jourFin, 'moisFin'=>$moisFin, 'anneeFin'=>$anneeFin));
             }
             
