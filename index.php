@@ -11,6 +11,7 @@
     <body>
     <?php include("navBar.php"); ?>
     <?php include("barreRechercheBalise.php"); ?>
+    <?php include("listeRequete.php"); ?>
     <table class="table" style="position:relative; top: 15px;">
         <thead class="thead-dark">
             <tr>
@@ -37,31 +38,25 @@
 
         //cas où il y a une ID et une Localisation
         if(!empty($_POST['id']) AND !empty($_POST['localisation'])){  
-            $reponse=$bdd->prepare('SELECT *
-                                    FROM balises
-                                    WHERE id = :id AND Localisation = :localisation');
+            $reponse=$bdd->prepare($req13IdLoc);
             $reponse->execute(array('id' => $_POST['id'], 'localisation'=>$_POST['localisation']));
             
         }
 
         elseif(!empty($_POST['id']) AND empty($_POST['localisation'])){  
-            $reponse=$bdd->prepare('SELECT *
-                                    FROM balises
-                                    WHERE id = :id');
+            $reponse=$bdd->prepare($req14IdNoLoc);
             $reponse->execute(array('id' => $_POST['id']));
             
         }
 
         elseif(empty($_POST['id']) AND !empty($_POST['localisation'])){  
-            $reponse=$bdd->prepare('SELECT *
-                                    FROM balises
-                                    WHERE Localisation = :localisation');
+            $reponse=$bdd->prepare($req15NoIdLoc);
             $reponse->execute(array('localisation' => $_POST['localisation']));
             
         }
 
         else{
-            $reponse=$bdd->query('SELECT * FROM balises');
+            $reponse=$bdd->query($req16NoIdNoLoc);
         }
 
         $indice=0;

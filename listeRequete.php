@@ -60,4 +60,12 @@ $req12noIdLocDateFin='SELECT h.ID, h.id_balise, h.Date, b.Pays, b.Ville, b.Local
                       WHERE Localisation = :localisation AND b.ID = h.id_balise AND date_part(\'day\',h.Date)<= :jourFin  
 		      AND date_part(\'month\',h.Date) <= :moisFin  AND date_part(\'year\',h.Date) <= :anneeFin';
 
+$req13IdLoc='SELECT * FROM balises WHERE id = :id AND Localisation = :localisation';
+
+$req14IdNoLoc='SELECT * FROM balises WHERE id = :id';
+
+$req15NoIdLoc='SELECT * FROM balises WHERE Localisation = :localisation';
+
+$req16NoIdNoLoc='SELECT * FROM balises';
+
 ?>
