@@ -5,9 +5,9 @@ $json = file_get_contents("php://input");
 $obj = json_decode($json);
 $decoded = base64_decode(json_encode($obj->data));
 
-//$fp = @fopen("toto.txt","a");
-//fwrite($fp,$decoded);
-//fwrite($fp,"\r\n");
+$fp = @fopen("toto.txt","a");
+fwrite($fp,$decoded);
+fwrite($fp,"\r\n");
 //fclose($fp);
 
 
@@ -28,12 +28,11 @@ if(preg_match($regex,$decoded,$result)){
 			$niveau=20;
 		elseif($result[3]==1 && $result[4]==1)
 			$niveau=30;
-		else{ 
-			$inondee="NON";
-			$niveau=0;
-		}
-			
 	}
+	else{ 
+		$inondee="NON";
+		$niveau=0;
+	}		
 }
 	
 try{
@@ -45,6 +44,8 @@ catch(Exception $e){
         die('Erreur : '.$e->getMessage());
 }
 
+fwrite($fp,$id." ".$niveau." ".$inondee."\r\n");
+fclose($fp);
 //des qu'une donnee ajoute on met a jour la table balises
 $requete=$bdd->prepare('UPDATE balises 
 	       		SET inondee=:in, niveau=:niv  
