@@ -11,13 +11,47 @@
 			var lat = 50.630409;
 			var lon = 3.059348;
 			var map = null;
-			var locations = [
-      				['Bondi Beach', -33.890542, 151.274856, 4],
-      				['Coogee Beach', -33.923036, 151.259052, 5],
-      				['Cronulla Beach', -34.028249, 151.157507, 3],
-      				['Manly Beach', -33.80010128657071, 151.28747820854187, 2],
-      				['Maroubra Beach', -33.950198, 151.259302, 1]
-    			];
+			<?php
+			    try{
+	    		    // On se connecte a postgres
+				$bdd = new PDO("pgsql:host=localhost;port=5432;dbname=pfe;user=root;password=glopglop");
+    			    }			
+    			    catch(Exception $e){
+	    		// En cas d'erreur, on affiche un message et on arrête tout
+        		    	die('Erreur : '.$e->getMessage());
+			    }
+			$reponse=$bdd->query('SELECT COUNT(*) FROM balises');
+  			$nbMarqueur=$reponse->fetch();
+			?>
+			var nbMarqueur=<?php echo $nbMarqueur[0];?>;
+			var locations = new Array(nbMarqueur);
+			<?php
+			$reponse=$bdd->query('SELECT localisation, coordonnees FROM balises');
+			?>
+			for (var i = 0; i < nbMarqueur; i++){
+				locations[i] = new Array(4);
+				<?php
+				$infoLoc=$reponse->fetch();
+				$localisation=$infoLoc['localisation'];
+				$regex="#([0-9][0-9]*\.[0-9][0-9]*),([0-9][0-9]*\.[0-9][0-9]*)#";
+				if(preg_match($regex,$infoLoc['coordonnees'],$resultat)){
+					$coord1=$resultat[1];
+					$coord2=$resultat[2];
+				}
+				?>
+				locations[i][0]="<?php echo $localisation; ?>";
+				locations[i][1]=<?php echo $coord1; ?>;
+				locations[i][2]=<?php echo $coord2; ?>;
+				locations[i][3]=i;
+			}
+			
+			//var locations = [
+      			//	['Bondi Beach', -33.890542, 151.274856, 4],
+      			//	['Coogee Beach', -33.923036, 151.259052, 5],
+      			//	['Cronulla Beach', -34.028249, 151.157507, 3],
+      			//	['Manly Beach', -33.80010128657071, 151.28747820854187, 2],
+      			//	['Maroubra Beach', -33.950198, 151.259302, 1]
+			//];
 			// Fonction d'initialisation de la carte
 			function initMap() {
 				// Créer l'objet "map" et l'insèrer dans l'élément HTML qui a l'ID "map"
@@ -72,10 +106,10 @@
 		<title>Carte</title>
 	</head>
 	<body>
-        <?php include("navBar.php"); ?>
-		<div id="map" style="position:relative; top:50px;">
+	<?php include("navBar.php"); ?>
+		<div id="map" style="position:relative; top:20px;">
 			<!-- Ici s'affichera la carte -->
 		</div>
 	</body>
 </html>
-		
+
