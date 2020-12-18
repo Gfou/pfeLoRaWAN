@@ -27,19 +27,19 @@ if($_GET['event']=="up"){
 		$inondee="OUI";
 		$niveau=5;
 	}
-	if($decoded==4){
+	elseif($decoded==4){
 		$inondee="OUI";
 		$niveau=10;
 	}
-	if($decoded==10){
+	elseif($decoded==10){
 		$inondee="OUI";
 		$niveau=15;
 	}
-	if($decoded==40){
+	elseif($decoded==40){
 		$inondee="OUI";
 		$niveau=20;
 	}
-	if($decoded==0b00000000){
+	elseif($decoded==0){
 		$inondee="NON";
 		$niveau=0;
 	}
