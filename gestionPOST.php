@@ -1,18 +1,17 @@
 
 <?php
 if($_GET['event']=="up"){
-header("content-type: application/json");
-$json = file_get_contents("php://input");
-$obj = json_decode($json);
-$id = bin2hex(base64_decode(json_encode($obj->devEUI)));
-//$decoded = base64_decode(json_encode($obj->data));
+	header("content-type: application/json");
+	$json = file_get_contents("php://input");
+	$obj = json_decode($json);
+	$id = bin2hex(base64_decode(json_encode($obj->devEUI)));
+	$decoded = bin2hex(base64_decode(json_encode($obj->data)));
 
 
-	$fp = @fopen("toto.txt","a");
+	$fp = fopen("toto.txt","a");
 	//var_dump($obj);
-	//$tototo=ob_get_clean()
-	//;
-	fprintf($fp,"%s\n",$id);
+	//$tototo=ob_get_clean();
+	fprintf($fp,"%d ---\n",$decoded);
 	//fclose($fp);
 
 
@@ -23,19 +22,32 @@ $id = bin2hex(base64_decode(json_encode($obj->devEUI)));
 	$result;
 	$decoded;
 
-	/*
-	if($decoded==0b00000001){
+	
+	if($decoded==1){
+		$inondee="OUI";
+		$niveau=5;
+	}
+	if($decoded==4){
 		$inondee="OUI";
 		$niveau=10;
 	}
-	if($decoded==0b00000100)
+	if($decoded==10){
+		$inondee="OUI";
+		$niveau=15;
+	}
+	if($decoded==40){
+		$inondee="OUI";
 		$niveau=20;
-	elseif($decoded==0b00010000)
-		$niveau=30;
-	else{
+	}
+	if($decoded==0b00000000){
 		$inondee="NON";
 		$niveau=0;
-	}*/
+	}
+	else
+	{
+		$inondee="NON";
+		$niveau=0;
+	}
 
 
 	/*$regex="#^([0-9]+):([0-1]{1}):([0-1]{1}):([0-1]{1})$#";
@@ -48,7 +60,6 @@ $id = bin2hex(base64_decode(json_encode($obj->devEUI)));
 				$niveau=20;
 			elseif($result[3]==1 && $result[4]==1)
 				$niveau=30;
-	9ee965
 		}
 		else{ 
 			$inondee="NON";

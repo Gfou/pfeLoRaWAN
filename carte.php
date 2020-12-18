@@ -23,27 +23,26 @@
 			$reponse=$bdd->query('SELECT COUNT(*) FROM balises');
   			$nbMarqueur=$reponse->fetch();
 			?>
-			var nbMarqueur=<?php echo $nbMarqueur[0];?>;
+			var nbMarqueur=<?php echo $nbMarqueur['count'];?>;
 			var locations = new Array(nbMarqueur);
+			var coordonnees, coord1, coord2;
 			<?php
 			$reponse=$bdd->query('SELECT localisation, coordonnees FROM balises');
 			?>
-			for (var i = 0; i < nbMarqueur; i++){
-				locations[i] = new Array(4);
-				<?php
-				$infoLoc=$reponse->fetch();
-				$localisation=$infoLoc['localisation'];
-				$regex="#([0-9][0-9]*\.[0-9][0-9]*),([0-9][0-9]*\.[0-9][0-9]*)#";
-				if(preg_match($regex,$infoLoc['coordonnees'],$resultat)){
-					$coord1=$resultat[1];
-					$coord2=$resultat[2];
-				}
-				?>
-				locations[i][0]="<?php echo $localisation; ?>";
-				locations[i][1]=<?php echo $coord1; ?>;
-				locations[i][2]=<?php echo $coord2; ?>;
+			var infos =JSON.parse('<?php echo json_encode($reponse->fetchAll(), true); ?>');
+			console.log(nbMarqueur);
+			for(var i=0; i<nbMarqueur; i++){
+				locations[i]=new Array(4);
+				locations[i][0]=infos[i]['localisation'];
+				coordonnees=infos[i]['coordonnees'];
+				var pos=coordonnees.indexOf(",");
+				coord1=coordonnees.slice(0,pos-1);
+				coord2=coordonnees.slice(pos+1);
+				locations[i][1]=coord1;
+				locations[i][2]=coord2,
 				locations[i][3]=i;
 			}
+
 			
 			//var locations = [
       			//	['Bondi Beach', -33.890542, 151.274856, 4],
