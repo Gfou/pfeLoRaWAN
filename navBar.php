@@ -11,6 +11,9 @@
       <li class="nav-item">
         <a class="nav-link" href="carte.php">Cartes</a>
       </li>
+       <li class="nav-item">
+        <a class="nav-link" href="gestionCapteurs.php">Espace utilisateur</a>
+      </li>
     </ul>
   </div>
 </nav>
