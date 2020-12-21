@@ -86,17 +86,17 @@ if($_GET['event']=="up"){
 	
 
 	//on regarde si la dernière entre en base a plus de 24h, si oui on enregistre
-	$ajrd=date("Y-m-d");
-	$requete=$bdd->prepare('SELECT MAX(date) AS max_date
+	$ajrd=date("Y-m-d h:i:s A");
+	/* $requete=$bdd->prepare('SELECT MAX(date) AS max_date
 				FROM historique_balise
 				WHERE id_balise=:id');
 	$requete->execute(array('id' => $id));
 	$resultat=$requete->fetch();
-	if($ajrd>$resultat['max_date']  || $resultat==FALSE){
+	if($ajrd>$resultat['max_date']  || $resultat==FALSE){*/
 		$requete=$bdd->prepare('INSERT INTO historique_balise
 					VALUES (DEFAULT,:id,:d,:niv,:in)');
 		$requete->execute(array('id'=>$id,'d'=>$ajrd, 'niv'=>$niveau, 'in'=>$inondee));
-	}
+	//}
 }
 ?>
 
