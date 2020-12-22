@@ -1,3 +1,8 @@
+<?php
+session_start();
+if (!empty($_SESSION['login'])){
+?>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -197,3 +202,11 @@
 
 
     </body>
+</html>
+
+<?php
+}else {
+	$_SESSION['page']='gestionCapteurs.php';
+	header('Location: login.php');
+}
+?>
