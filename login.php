@@ -14,6 +14,9 @@ session_start();
 
     <body>
 	<?php include("navBar.php"); ?>	
+	<div style="position:absolute; top:300px; left:800px">
+		<p><img src="logoConnection.png" alt="logo"/></p>
+	</div>
 	<form method="post" action="login.php" style="position:absolute; left:800px; top:350px"> 
 		<div class="row">
 			<input type="text" class=form-control" id="Input" placeholder="Login"/>
