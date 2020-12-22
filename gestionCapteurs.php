@@ -11,6 +11,60 @@
     <body>
     <?php include("navBar.php"); ?>
     <?php include("listeRequete.php"); ?>
+    <?php
+		try{
+	    // On se connecte a postgres
+			$bdd = new PDO("pgsql:host=localhost;port=5432;dbname=pfe;user=root;password=glopglop");
+  		  }
+  	         catch(Exception $e){
+	    // En cas d'erreur, on affiche un message et on arrête tout
+                	die('Erreur : '.$e->getMessage()); 
+		 }
+		/* Ajout d'une balise */	
+		 if(!empty($_POST['idA'])){
+			 $reponseA=$bdd->prepare($req21);
+			 $reponseA->execute(array('id'=>$_POST['idA'],'pays'=>$_POST['paysA'],'ville'=>$_POST['villeA'], 'localisation'=>$_POST['localisationA'],'coordonnees'=>$_POST['coordonneesA']));
+		 }
+		/* Suppression d'une balise */
+		 elseif(!empty($_POST['idS'])){
+			 $reponse=$bdd->prepare($req22);
+			 $reponse->execute(array('id'=>$_POST['idS']));
+		 }
+		 /* Modification d'un balise */
+		 /* On verifie d'abord qu'un id a ete saisi */
+		 elseif(!empty($_POST['idM'])){
+			 $testIdM=$bdd->prepare('SELECT id FROM balises WHERE id=:id');
+			 $testIdM->execute(array('id'=>$_POST['idM']));
+			 $testIdM=$testIdM->fetch();
+		/* On verifie si cette id existe */
+			 if(empty($testIdM)){
+				 $testIdM="false";
+			}
+			 elseif($_POST['idM']==$testIdM['id']){
+				$testIdM="true";
+			 	if(!empty($_POST['coordonneesM'])){
+					 $reponseM=$bdd->prepare($req17);
+					 $reponseM->execute(array('coordonnees'=>$_POST['coordonneesM'],'id'=>$_POST['idM']));
+				 }
+				 if(!empty($_POST['paysM'])){
+					 $reponseM=$bdd->prepare($req18);
+					 $reponseM->execute(array('pays'=>$_POST['paysM'],'id'=>$_POST['idM']));
+				 }
+  				 if(!empty($_POST['villeM'])){
+					 $reponseM=$bdd->prepare($req19);
+					 $reponseM->execute(array('ville'=>$_POST['villeM'],'id'=>$_POST['idM']));
+				 }
+				 if(!empty($_POST['localisationM'])){
+					 $reponseM=$bdd->prepare($req20);
+					 $reponseM->execute(array('localisation'=>$_POST['localisationM'],'id'=>$_POST['idM']));
+				 }
+			 }
+			 else{
+				 $testIdM="false";
+			}
+		}
+	?>
+
     <h1 style="margin-top:30px; margin-left:15px; width:fit-content; font-family:Georgia,serif; border:3px black solid; box-shadow:6px 10px 8px black;background-color:#303030; color:white">Ajout d'une nouvelle balise</h1>
     	<form method="post" action="gestionCapteurs.php" style="position:relative; left: 25px; top:15px">
   		<div class="row">
@@ -35,9 +89,22 @@
 		    <input type="text" required class="form-control" placeholder="Localisation" name="localisationA">
 		  </div>
   		  <div class="col">
-  		  <button type="submit" class="btn btn-primary">Valider l'ajout</button>
-  		  </div>
+		  <button type="submit" class="btn btn-primary">Valider l'ajout</button>
+		  </div>
 		</div>
+		<?php 
+		    if(!empty($reponseA)){	
+			if($reponseA==true){?>
+				<div class="row">
+					<span class="badge bg-success" style="margin-top:10px; margin-left:16px">Ajout de <?php echo $_POST['idA'];?> valide</span>
+				</div>
+		<?php   }
+		    
+		    }else{ ?>
+				<div class="row">
+					<span class="badge bg-success" style="margin-top:10px; margin-left:16px; visibility:hidden">Ajout valide</span>
+				</div>
+		<?php } ?>
 	</form>
 
      <h1 style="width:fit-content; margin-left:15px; margin-top:50px; font-family:Georgia,serif; border:3px black solid; box-shadow:6px 10px 8px black; background-color:#303030; color:white">Modification d'une balise</h1>
@@ -66,7 +133,24 @@
   		  <div class="col">
   		  <button type="submit" class="btn btn-primary">Valider la modification</button>
   		  </div>
-  		</div>
+		  </div>	
+		 <?php 
+		    if(!empty($testIdM)){	
+			if($testIdM=="true"){?>
+				<div class="row">
+				<span class="badge bg-success" style="margin-top:10px; margin-left:16px">Modification de <?php echo $_POST['idM'];?> valide</span>
+				</div>
+		<?php   }else{?>
+				<div class="row">
+					<span class="badge bg-danger" style="margin-top:10px; margin-left:16px">Erreur modification</span>
+				</div>
+				
+		<?php    } 
+		    }else{?>
+				<div class="row">
+					<span class="badge bg-success" style="margin-top:10px; margin-left:16px; visibility:hidden">Ajout valide</span>
+				</div>
+		<?php } ?>
 	</form>
 	 <h1 style="width:fit-content; margin-left:15px; margin-top:50px; font-family:Georgia,serif; border:3px black solid; box-shadow:6px 10px 8px black; background-color:#303030; color:white">Suppression d'une balise</h1>
     	<form method="post" action="gestionCapteurs.php" style="position:relative; left: 25px; top:15px">
@@ -77,49 +161,10 @@
 		 <div class="col">
 		  <button type="submit" class="btn btn-primary" style="position:relative; right:52%">Valider la suppression</button>
 		 </div>
-		</div>
+		 </div>
 	</form>
 
 
-	<?php
-		try{
-	    // On se connecte a postgres
-			$bdd = new PDO("pgsql:host=localhost;port=5432;dbname=pfe;user=root;password=glopglop");
-  		  }
-  	         catch(Exception $e){
-	    // En cas d'erreur, on affiche un message et on arrête tout
-                	die('Erreur : '.$e->getMessage()); 
-		 }
-		/* Ajout d'une balise */	
-		 if(!empty($_POST['idA'])){
-			 $reponse=$bdd->prepare('INSERT INTO balises
-			 		  VALUES(:id,:pays,:ville,:localisation,:coordonnees,0,\'NON\')');
-			 $reponse->execute(array('id'=>$_POST['idA'],'pays'=>$_POST['paysA'],'ville'=>$_POST['villeA'], 'localisation'=>$_POST['localisationA'],'coordonnees'=>$_POST['coordonneesA']));
-		 }
-		/* suppression d'une balise */
-		 elseif(!empty($_POST['idS'])){
-			 $reponse=$bdd->prepare('DELETE FROM balises WHERE id=:id');
-			 $reponse->execute(array('id'=>$_POST['idS']));
-		 }
-		 elseif(!empty($_POST['idM'])){
-			 if(!empty($_POST['coordonneesM'])){
-				 $reponse=$bdd->prepare('UPDATE balises SET coordonnees=:coordonnees WHERE id=:id');
-				 $reponse->execute(array('coordonnees'=>$_POST['coordonneesM'],'id'=>$_POST['idM']));
-			 }
-			 if(!empty($_POST['paysM'])){
-				 $reponse=$bdd->prepare('UPDATE balises SET pays=:pays WHERE id=:id');
-				 $reponse->execute(array('pays'=>$_POST['paysM'],'id'=>$_POST['idM']));
-			 }
-  			 if(!empty($_POST['villeM'])){
-				 $reponse=$bdd->prepare('UPDATE balises SET ville=:ville WHERE id=:id');
-				 $reponse->execute(array('ville'=>$_POST['villeM'],'id'=>$_POST['idM']));
-			 }
-			 if(!empty($_POST['localisationM'])){
-				 $reponse=$bdd->prepare('UPDATE balises SET localisation=:localisation WHERE id=:id');
-				 $reponse->execute(array('localisation'=>$_POST['localisationM'],'id'=>$_POST['idM']));
-			 }
 
-		 }
-	?>
 
     </body>
