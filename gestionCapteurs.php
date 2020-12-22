@@ -25,18 +25,30 @@
 			 $reponseA=$bdd->prepare($req21);
 			 $reponseA->execute(array('id'=>$_POST['idA'],'pays'=>$_POST['paysA'],'ville'=>$_POST['villeA'], 'localisation'=>$_POST['localisationA'],'coordonnees'=>$_POST['coordonneesA']));
 		 }
-		/* Suppression d'une balise */
-		 elseif(!empty($_POST['idS'])){
-			 $reponse=$bdd->prepare($req22);
-			 $reponse->execute(array('id'=>$_POST['idS']));
+		 /* Suppression d'une balise */
+		 /* On verifie d'abord qu'un id a ete saisi et qui existe dans la base */
+		 /* testidS est la variable servant a definir quel message d'erreur on doit afficher */
+		 elseif(!empty($_POST['idS'])){	
+			 $testIdS=$bdd->prepare('SELECT id FROM balises WHERE id=:id');
+			 $testIdS->execute(array('id'=>$_POST['idS']));
+			 $testIdS=$testIdS->fetch();
+			 if(empty($testIdS))
+				 $testIdS="false";
+			 else{
+				 $testIdS="true";
+				 $reponseS=$bdd->prepare($req22);
+				 $reponseS->execute(array('id'=>$_POST['idS']));
+			 }	
 		 }
 		 /* Modification d'un balise */
 		 /* On verifie d'abord qu'un id a ete saisi */
+		 /* testIdM est la variable servant a definir quel message d'erreur on doit  afficher */
+		 
 		 elseif(!empty($_POST['idM'])){
 			 $testIdM=$bdd->prepare('SELECT id FROM balises WHERE id=:id');
 			 $testIdM->execute(array('id'=>$_POST['idM']));
 			 $testIdM=$testIdM->fetch();
-		/* On verifie si cette id existe */
+		 /* On verifie si cette id existe */
 			 if(empty($testIdM)){
 				 $testIdM="false";
 			}
@@ -142,7 +154,7 @@
 				</div>
 		<?php   }else{?>
 				<div class="row">
-					<span class="badge bg-danger" style="margin-top:10px; margin-left:16px">Erreur modification</span>
+				<span class="badge bg-danger" style="margin-top:10px; margin-left:16px">Erreur modification de <?php echo $_POST['idM'];?></span>
 				</div>
 				
 		<?php    } 
@@ -162,6 +174,23 @@
 		  <button type="submit" class="btn btn-primary" style="position:relative; right:52%">Valider la suppression</button>
 		 </div>
 		 </div>
+		 <?php 
+		    if(!empty($testIdS)){	
+			if($testIdS=="true"){?>
+				<div class="row">
+				<span class="badge bg-success" style="margin-top:10px; margin-left:16px">Suppression de <?php echo $_POST['idS'];?> valide</span>
+				</div>
+		<?php   }else{?>
+				<div class="row">
+				<span class="badge bg-danger" style="margin-top:10px; margin-left:16px">Erreur suppression de <?php echo $_POST['idS'];?></span>
+				</div>
+				
+		<?php    } 
+		    }else{?>
+				<div class="row">
+					<span class="badge bg-success" style="margin-top:10px; margin-left:16px; visibility:hidden">Ajout valide</span>
+				</div>
+		<?php } ?>
 	</form>
 
 
