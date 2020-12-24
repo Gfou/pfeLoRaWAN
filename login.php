@@ -39,15 +39,15 @@ session_start();
 		}
 	}
 	?>
-	<div style="position:absolute; top:180px; left:710px">
+	<div style="position:absolute; top:180px; left:44%">
 		<p><img src="login.png" alt="logo"/></p>
 	</div>
-	<form method="post" action="login.php" style="position:absolute; left:680px; top:350px"> 
+	<form method="post" action="login.php" style="position:absolute; left:42.5%; top:350px"> 
 		<div class="row">
-			<input type="text" class="form-control" name="login" placeholder="Login"/>
+		<input type="text" class="form-control" name="login" <?php if(empty($erreur)){?> placeholder="Login"<?php }else{?>placeholder="Erreur connexion" style="border:solid red 1px;"<?php } ?>/>
 		</div>
 		<div class="row" style="position:relative; top:10px">
-		<input type="password" class="form-control" name="mdp" <?php if(empty($erreur)){?>placeholder="Mot de passe"<?php }else{?>placeholder="Erreur connexion" style="border:solid red;"<?php } ?></>
+		<input type="password" class="form-control" name="mdp" <?php if(empty($erreur)){?>placeholder="Mot de passe"<?php }else{?>placeholder="Reessayez" style="border:solid red 1px;"<?php } ?></>
 		</div>
 		<div class="row" style="position:relative; top:20px; left:50px">
 			<button type="submit" class="btn btn-primary">Connexion</button>
