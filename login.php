@@ -13,18 +13,43 @@ session_start();
     </head>
 
     <body>
-	<?php include("navBar.php"); ?>	
-	<div style="position:absolute; top:180px; left:810px">
+
+	<?php include("navBar.php");?>	
+	<?php
+	if(!empty($_POST['login']) AND !empty($_POST['mdp'])){
+	 	try{
+	 	       // On se connecte à postgres
+	 	       $bdd = new PDO("pgsql:host=localhost;port=5432;dbname=pfe;user=root;password=glopglop");
+        	}
+        	catch(Exception $e){
+		        // En cas d'erreur, on affiche un message et on arrête tout
+        	    die('Erreur : '.$e->getMessage());
+		}
+		$mdp=hash('ripemd128',$_POST['mdp']);
+		$requete=$bdd->prepare('SELECT id FROM utilisateurs WHERE id=:id AND mdp=:mdp');
+		$requete->execute(array('id'=>$_POST['login'], 'mdp'=>$mdp));
+		$requete=$requete->fetch();
+		if(!empty($requete)){
+			$_SESSION['login']=1;
+			echo "toto";
+			header('Location: gestionCapteurs.php');
+		}
+		else{
+			$erreur=1;
+		}
+	}
+	?>
+	<div style="position:absolute; top:180px; left:710px">
 		<p><img src="login.png" alt="logo"/></p>
 	</div>
-	<form method="post" action="login.php" style="position:absolute; left:800px; top:350px"> 
+	<form method="post" action="login.php" style="position:absolute; left:680px; top:350px"> 
 		<div class="row">
-			<input type="text" class=form-control" id="Input" placeholder="Login"/>
+			<input type="text" class="form-control" name="login" placeholder="Login"/>
 		</div>
 		<div class="row" style="position:relative; top:10px">
-			<input type="text" class=form-control" id="Input2" placeholder="Mot de passe"/>
+		<input type="password" class="form-control" name="mdp" <?php if(empty($erreur)){?>placeholder="Mot de passe"<?php }else{?>placeholder="Erreur connexion" style="border:solid red;"<?php } ?></>
 		</div>
-		<div class="row" style="position:relative; top:20px; left:35px">
+		<div class="row" style="position:relative; top:20px; left:50px">
 			<button type="submit" class="btn btn-primary">Connexion</button>
 		</div>
 	</form>
