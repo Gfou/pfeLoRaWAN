@@ -5,8 +5,8 @@
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
-		<script src="https://maps.google.com/maps/api/js?key=AIzaSyCDONsgNQkHD0VrPlwRc3FqGjkVnr_TzO0" type="text/javascript"></script>
-		<script async type="text/javascript">
+	<script src="https://maps.google.com/maps/api/js?key=AIzaSyCDONsgNQkHD0VrPlwRc3FqGjkVnr_TzO0&libraries=visualization" type="text/javascript"></script>
+	<script async type="text/javascript">
 			// On initialise la latitude et la longitude de Paris (centre de la carte)
 			var lat = 50.630409;
 			var lon = 3.059348;
@@ -26,8 +26,9 @@
 			var nbMarqueur=<?php echo $nbMarqueur['count'];?>;
 			var locations = new Array(nbMarqueur);
 			var coordonnees, coord1, coord2;
+			var heatMapData = new Array(nbMarqueur);
 			<?php
-			$reponse=$bdd->query('SELECT localisation, coordonnees FROM balises');
+			$reponse=$bdd->query('SELECT localisation, coordonnees, niveau FROM balises');
 			?>
 			var infos =JSON.parse('<?php echo json_encode($reponse->fetchAll(), true); ?>');
 			console.log(nbMarqueur);
@@ -41,8 +42,9 @@
 				locations[i][1]=coord1;
 				locations[i][2]=coord2,
 				locations[i][3]=i;
+				heatMapData[i]={location: new google.maps.LatLng(coord1, coord2), weight: infos[i]['niveau']};
 			}
-
+			
 			
 			//var locations = [
       			//	['Bondi Beach', -33.890542, 151.274856, 4],
@@ -90,7 +92,11 @@
           						infowindow.open(map, marker);
         					}
       					})(marker, i));
-    				}		
+				}
+				var heatmap = new google.maps.visualization.HeatmapLayer({
+					data: heatMapData, radius: 0.01, dissipating:false
+				});
+				heatmap.setMap(map);			
 			}
 			window.onload = function(){
 				// Fonction d'initialisation qui s'exécute lorsque le DOM est chargé
