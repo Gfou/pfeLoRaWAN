@@ -9,9 +9,9 @@
     </head>
 
     <body>
+    <?php include("listeRequete.php"); ?>
     <?php include("navBar.php"); ?>
     <?php include("barreRechercheBalise.php"); ?>
-    <?php include("listeRequete.php"); ?>
     <table class="table" style="position:relative; top: 15px;">
         <thead class="thead-dark">
             <tr>
@@ -45,8 +45,7 @@
 
         elseif(!empty($_POST['id']) AND empty($_POST['localisation'])){  
             $reponse=$bdd->prepare($req14IdNoLoc);
-            $reponse->execute(array('id' => $_POST['id']));
-            
+	    $reponse->execute(array('id' => $_POST['id']));
         }
 
         elseif(empty($_POST['id']) AND !empty($_POST['localisation'])){  
@@ -58,8 +57,8 @@
         else{
             $reponse=$bdd->query($req16NoIdNoLoc);
         }
-
-        $indice=0;
+	
+	$indice=0;
         while($donnees=$reponse->fetch()){?>
             <tr>
              <th scope="row"><?php echo $indice ?></th>

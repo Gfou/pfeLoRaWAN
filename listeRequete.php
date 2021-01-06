@@ -90,4 +90,7 @@ $req21='INSERT INTO balises VALUES(:id,:pays,:ville,:localisation,:coordonnees,0
 
 $req22='DELETE FROM balises WHERE id=:id';
 
+$req23='SELECT id FROM balises';
+
+$req24='SELECT localisation FROM balises';
 ?>
