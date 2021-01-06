@@ -9,9 +9,20 @@
     </head>
 
     <body>
+    <?php
+    try{
+	    // On se connecte a postgres
+	$bdd = new PDO("pgsql:host=localhost;port=5432;dbname=pfe;user=root;password=glopglop");
+    }
+    catch(Exception $e){
+	    // En cas d'erreur, on affiche un message et on arrête tout
+        die('Erreur : '.$e->getMessage()); 
+    }
+    ?>
+
+    <?php include("listeRequete.php"); ?>
     <?php include("navBar.php"); ?>
     <?php include("barreRechercheHistorique.php"); ?>
-    <?php include("listeRequete.php"); ?>
     <table class="table table-striped table-dark" style="position:relative; top: 15px;">
         <thead>
             <tr>
@@ -31,16 +42,6 @@
 
     <?php
     
-
-    try{
-	    // On se connecte a postgres
-	$bdd = new PDO("pgsql:host=localhost;port=5432;dbname=pfe;user=root;password=glopglop");
-    }
-    catch(Exception $e){
-	    // En cas d'erreur, on affiche un message et on arrête tout
-        die('Erreur : '.$e->getMessage()); 
-    }
-
     if(!empty($_POST['id']) OR !empty($_POST['localisation'])){
         //cas où il y a une ID et une Localisation
         if(!empty($_POST['id']) AND !empty($_POST['localisation']) AND empty($_POST['plageDebut']) AND empty($_POST['plageFin'])){  

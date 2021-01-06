@@ -9,6 +9,16 @@
     </head>
 
     <body>
+    <?php
+    try{
+	    // On se connecte a postgres
+	$bdd = new PDO("pgsql:host=localhost;port=5432;dbname=pfe;user=root;password=glopglop");
+    }
+    catch(Exception $e){
+	    // En cas d'erreur, on affiche un message et on arrête tout
+        die('Erreur : '.$e->getMessage());
+    }
+    ?>
     <?php include("listeRequete.php"); ?>
     <?php include("navBar.php"); ?>
     <?php include("barreRechercheBalise.php"); ?>
@@ -27,15 +37,6 @@
         </thead>
     
     <?php
-        try{
-	        // On se connecte à postgres
-	        $bdd = new PDO("pgsql:host=localhost;port=5432;dbname=pfe;user=root;password=glopglop");
-        }
-        catch(Exception $e){
-	        // En cas d'erreur, on affiche un message et on arrête tout
-            die('Erreur : '.$e->getMessage());
-        }
-
         //cas où il y a une ID et une Localisation
         if(!empty($_POST['id']) AND !empty($_POST['localisation'])){  
             $reponse=$bdd->prepare($req13IdLoc);

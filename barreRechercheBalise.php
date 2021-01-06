@@ -1,15 +1,3 @@
-<?php
-	try{
-    		// On se connecte a postgres
-		$bdd = new PDO("pgsql:host=localhost;port=5432;dbname=pfe;user=root;password=glopglop");
-	}
-		 catch(Exception $e){
-		 // En cas d'erreur, on affiche un message et on arrête tout
-		 die('Erreur : '.$e->getMessage()); 
-    	}
-?>
-
-
 <form method="post" action="index.php" style="position:relative; left: 15px;">
   	<div class="row">
     		<div class="col">

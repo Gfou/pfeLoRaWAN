@@ -1,10 +1,24 @@
 <form method="post" action="rechercheHistorique.php" style="position:relative; left: 15px;">
   <div class="row">
     <div class="col">
-      <input type="text" class="form-control" placeholder="Id balise" name="id">
+	<select class="browser-default custom-select" name="id" id="id">
+		 <option disabled selected>Recherche par balise</option>
+		 <?php
+		 $reponse=$bdd->query($req23);
+		 while($donnees=$reponse->fetch()){?>
+		 <option value="<?php echo $donnees['id'];?>"><?php echo $donnees['id'];?></option>
+		 <?php } ?>
+       	</select>
     </div>
     <div class="col">
-      <input type="text" class="form-control" placeholder="Localisation" name="localisation">
+	<select class="browser-default custom-select" name="localisation" id="localisation">
+		 <option disabled selected>Recherche par localisation</option>
+		 <?php
+		  $reponse=$bdd->query($req24);
+		  while($donnees=$reponse->fetch()){?>
+		  <option value="<?php echo $donnees['localisation'];?>"><?php echo $donnees['localisation'];?></option>
+          	  <?php } $reponse->closeCursor(); ?>
+       	</select>
     </div>
     <label for="plageDebut" style="position:relative; top: 7px; left: 10px" >De :</label>
     <div class="col">
