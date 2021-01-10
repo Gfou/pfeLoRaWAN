@@ -50,23 +50,6 @@ if($_GET['event']=="up"){
 	}
 
 
-	/*$regex="#^([0-9]+):([0-1]{1}):([0-1]{1}):([0-1]{1})$#";
-	if(preg_match($regex,$decoded,$result)){
-		$id=$result[1];
-		if($result[2]==1){
-			$inondee="OUI";
-			$niveau=10;
-			if($result[3]==1 && $result[4]==0)
-				$niveau=20;
-			elseif($result[3]==1 && $result[4]==1)
-				$niveau=30;
-		}
-		else{ 
-			$inondee="NON";
-			$niveau=0;
-		}		
-	}*/
-	
 	try{
 		//On se connecte a  postgres
 		$bdd = new PDO("pgsql:host=localhost;port=5432;dbname=pfe;user=root;password=glopglop");
@@ -78,6 +61,17 @@ if($_GET['event']=="up"){
 	
 	//fwrite($fp,$id." ".$niveau." ".$inondee."\r\n");
 	fclose($fp);
+
+	//On verifie si la balise est deja enregistre
+	$requete=$bdd->prepare('SELECT enable FROM balises WHERE id=:id');
+	$requete->execute(array('id'=>$id));
+	$requete=$requete->fetch();
+	if (empty($requete)){
+		$requete=$bdd->prepare('INSERT INTO unregistered_sensor VALUES (:id)';
+		$requete->execute(array('in'=>$id));
+	}
+	else if($requete['enable']==true){
+	
 	//des qu'une donnee ajoute on met a jour la table balises
 	$requete=$bdd->prepare('UPDATE balises 
 		       		SET inondee=:in, niveau=:niv  
@@ -85,18 +79,13 @@ if($_GET['event']=="up"){
 	$requete->execute(array('in'=>$inondee, 'niv'=>$niveau, 'id'=>$id));
 	
 
-	//on regarde si la dernière entre en base a plus de 24h, si oui on enregistre
+	//on veirfie si la balise es active avant de stocker en base
 	$ajrd=date("Y-m-d h:i:s A");
-	/* $requete=$bdd->prepare('SELECT MAX(date) AS max_date
-				FROM historique_balise
-				WHERE id_balise=:id');
-	$requete->execute(array('id' => $id));
-	$resultat=$requete->fetch();
-	if($ajrd>$resultat['max_date']  || $resultat==FALSE){*/
 		$requete=$bdd->prepare('INSERT INTO historique_balise
 					VALUES (DEFAULT,:id,:d,:niv,:in)');
-		$requete->execute(array('id'=>$id,'d'=>$ajrd, 'niv'=>$niveau, 'in'=>$inondee));
-	//}
+	$requete->execute(array('id'=>$id,'d'=>$ajrd, 'niv'=>$niveau, 'in'=>$inondee));
+	
+	}
 }
 ?>
 

@@ -36,7 +36,8 @@ session_start();
              <th scope="col">Localisation</th>
              <th scope="col">Coordonnées</th>
              <th scope="col">Niveau (cm)</th>
-             <th scope="col">Inondée</th>
+	     <th scope="col">Inondée</th>
+	     <th scope="col">Enable</th>
 	     <th scope="col">Options</th>
 	   </tr>
 	</thead>
@@ -70,13 +71,14 @@ session_start();
 <!--	<table class="table">   -->
             <tr>
 	     <th scope="row" id="<?php echo $donnees['id']."C";?>"><?php echo $indice ?></th>
-                <td><?php echo $donnees['id']?></td>
-                <td><?php echo $donnees['pays']?></td>
-                <td><?php echo $donnees['ville']?></td>
-                <td><?php echo $donnees['localisation']?></td>
-                <td><?php echo $donnees['coordonnees']?></td>
-                <td><?php echo $donnees['niveau']?></td>
-		<td><?php echo $donnees['inondee']?></td>
+                <td><?php echo $donnees['id'];?></td>
+                <td><?php echo $donnees['pays'];?></td>
+                <td><?php echo $donnees['ville'];?></td>
+                <td><?php echo $donnees['localisation'];?></td>
+		<td><?php echo $donnees['coordonnees'];?></td>
+                <td><?php if ($donnees['enable']==true){echo $donnees['niveau'];} else{echo "_";}?></td>
+                <td><?php if ($donnees['enable']==true){echo $donnees['inondee'];} else{echo "_";}?></td>
+		<td><?php if ($donnees['enable']==true){ ?><img src="img/check.png" alt="check"/><?php }else{ ?><img src="img/cancel.png" alt="cancel"/> <?php } ?></td>
 		<td>
 			<div class="row">
 				<div class="col">
@@ -225,6 +227,12 @@ session_start();
 			}
 			else{}
 		}
+
+
+		function disable(id){
+			document.location.href='gestionCapteurs/desactivation.php?id='+id;
+		}
+
     	</script>	
     </body> 
 </html>

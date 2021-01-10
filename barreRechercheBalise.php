@@ -25,6 +25,10 @@
     		</div>
     		<div class="col">
     			<button type="submit" class="btn btn-primary">Valider la recherche</button>
-    		</div>
+		</div>
+		<div class="col">
+			<button type="image" class="btn btn-primary" style="position:relative; margin-left:50%;"><img src="img/sensor.png" alt="sensor" /> Add a sensor</button>
+		</div>
+
   	</div>
 </form>	

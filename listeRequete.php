@@ -93,4 +93,6 @@ $req22='DELETE FROM balises WHERE id=:id';
 $req23='SELECT id FROM balises';
 
 $req24='SELECT localisation FROM balises';
+
+$req25='UPDATE balises SET enable = CASE enable WHEN true THEN false WHEN false THEN true END WHERE id=:id';
 ?>
