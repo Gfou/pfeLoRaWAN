@@ -31,7 +31,6 @@ session_start();
 		$requete=$requete->fetch();
 		if(!empty($requete)){
 			$_SESSION['login']=1;
-			echo "toto";
 			header('Location: gestionCapteurs.php');
 		}
 		else{
