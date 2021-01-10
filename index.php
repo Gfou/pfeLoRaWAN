@@ -88,11 +88,20 @@ session_start();
 						<?php  }?>><img src="settings2.png" alt="settings"/></button>
 				</div>
 				<div class="col">
-					<button id="<?php echo $donnees['id']; ?>" type="image" style="border:none; background-color:white;"><img src="eye2.png" alt="enable/disable"/></button>
+					<button id="<?php echo $donnees['id']; ?>" type="image" style="border:none; background-color:white;"
+						<?php if(empty($_SESSION['login'])){ ?>
+							onclick="document.location.href='login.php';"
+						<?php }else{ ?>
+							onClick="var id=this.getAttribute('id'); disable(id);"
+						<?php  }?>><img src="eye2.png" alt="enable/disable"/></button>
 				</div>
 				<div class="col">
-					<button id="<?php echo $donnees['id']; ?>" type="image" style="border:none; background-color:white;"><img src="remove2.png" alt="delete"/></button>
-			
+					<button id="<?php echo $donnees['id']; ?>" type="image" style="border:none; background-color:white;"
+						<?php if(empty($_SESSION['login'])){ ?>
+							onclick="document.location.href='login.php';"
+						<?php }else{ ?>
+							onClick="var id=this.getAttribute('id'); deleteBalise(id);"
+						<?php  }?>><img src="remove2.png" alt="delete"/></button>
 				</div>
 			</div>
 		</td>
@@ -130,7 +139,7 @@ session_start();
 				var f = document.createElement("FORM");
 				f.setAttribute('id',id+'F');
 				f.setAttribute('method',"post");
-				f.setAttribute('action',"gestionCapteurs/modification.php");
+				f.setAttribute('action',"gestionCapteurs/modification.php?id="+id);
 				f.setAttribute('style',"position:relative; margin-left:15px; margin-top:1%;");
 
 				var drow = document.createElement("div");
@@ -153,25 +162,25 @@ session_start();
 	
 				var c = document.createElement("input");
 				c.setAttribute('type',"text");
-				c.setAttribute('name',"idM");	
+				c.setAttribute('name',"coordonneesM");	
 				c.setAttribute('placeholder',"Coordonnees");
 				c.setAttribute('class',"form-control");
 			
 				var p = document.createElement("input");
 				p.setAttribute('type',"text");
-				p.setAttribute('name',"idM");	
+				p.setAttribute('name',"paysM");	
 				p.setAttribute('placeholder',"Pays");
 				p.setAttribute('class',"form-control");
 			
 				var v = document.createElement("input");
 				v.setAttribute('type',"text");
-				v.setAttribute('name',"idM");	
+				v.setAttribute('name',"villeM");	
 				v.setAttribute('placeholder',"Ville");
 				v.setAttribute('class',"form-control");
 			
 				var l = document.createElement("input");
 				l.setAttribute('type',"text");
-				l.setAttribute('name',"idM");	
+				l.setAttribute('name',"localisationM");	
 				l.setAttribute('placeholder',"Localisation");
 				l.setAttribute('class',"form-control");
 			
@@ -206,6 +215,15 @@ session_start();
 				div.removeChild(form);
 				
 			}
+		}
+
+
+		function deleteBalise(id){
+			if(confirm("Delete balise with ID "+id+" ?")){
+				console.log("toto");
+				document.location.href='gestionCapteurs/suppression.php?id='+id;
+			}
+			else{}
 		}
     	</script>	
     </body> 
