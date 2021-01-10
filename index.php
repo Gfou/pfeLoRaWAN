@@ -40,7 +40,7 @@ session_start();
 	     <th scope="col">Options</th>
 	   </tr>
 	</thead>
-     </table>
+<!--     </table>  -->
     
     <?php
         //cas où il y a une ID et une Localisation
@@ -67,7 +67,7 @@ session_start();
 	
     $indice=0;
     while($donnees=$reponse->fetch()){?>
-	<table class="table">
+<!--	<table class="table">   -->
             <tr>
 	     <th scope="row" id="<?php echo $donnees['id']."C";?>"><?php echo $indice ?></th>
                 <td><?php echo $donnees['id']?></td>
@@ -97,7 +97,7 @@ session_start();
 			</div>
 		</td>
 	    </tr>
-	</table>
+<!--	</table>  -->
 	    <div id=<?php echo $donnees['id']."D";?>></div>
 
         <?php   
@@ -108,57 +108,106 @@ session_start();
 	</table> 
 	<script> 
 
+		listForm=[];
+
 		function newLine(id){
-			ID=id+'C';
-			DIV=id+'D';
-			var line=document.getElementById(ID);
-			var div=document.getElementById(DIV);
-		/*	var htmlContent='<form method="post" action="gestionCapteurs/modification.php">'+
-						'<div class="row">\'+
-  		  					'<div class="col">'+
-  		  						  '<input type="text" required class="form-control" placeholder="Id balise" name="idM">'+
-  		  					'</div>'+
-  		  					'<div class="col">'+
-  		  						  '<input type="text"  class="form-control" placeholder="Coordonnees" name="coordonneesM">'+
-		  					'</div>'+
-		  					'<div class="col">'+
-		  						  '<input type="text"  class="form-control" placeholder="invisible" name="invisible" style="visibility: hidden">'+
-		 					'</div>'+
-						'</div>'+
-						'<div class="row">'+
-  		  					'<div class="col">'+
-  		  					 	 '<input type="text"  class="form-control" placeholder="Pays" name="paysM">'+
-  		  					'</div>'+
-  		  					'<div class="col">'+
-  		  						  '<input type="text"  class="form-control" placeholder="Ville" name="villeM">'+
-		  					'</div>'+
-		  					'<div class="col">'+
-		  						  '<input type="text"  class="form-control" placeholder="Localisation" name="localisationM">'+
-		  					'</div>'+
-  		  					'<div class="col">'+
-  		  						'<button type="submit" class="btn btn-primary">Valider la modification</button>'+
-  		  					'</div>'+
-						'</div>'+
-						'</form>';*/
+			var ID=id+'C';
+			var DIV=id+'D';
+			if (!listForm.includes(id)){
 
-			var f = document.createElement("FORM");
-			f.setAttribute('method',"post");
-			f.setAttribute('action',"gestionCapteurs/modification.php");
+				var line=document.getElementById(ID);
+				var div=document.getElementById(DIV);
 
-			var i = document.createElement("input");
-			i.setAttribute('type',"text");
-			i.setAttribute('name',"idM");	
+				listForm.forEach((form) => {	
+					console.log(form);
+					var remove=document.getElementById(form+'F');
+					var removeDiv=document.getElementById(form+'D');
+					const index = listForm.indexOf(form);
+					listForm.splice(index,1);
+					removeDiv.removeChild(remove);
+				})
 
-			f.appendChild(i);
+				var f = document.createElement("FORM");
+				f.setAttribute('id',id+'F');
+				f.setAttribute('method',"post");
+				f.setAttribute('action',"gestionCapteurs/modification.php");
+				f.setAttribute('style',"position:relative; margin-left:15px; margin-top:1%;");
 
-			div.appendChild(f);
-			//line.parentNode.insertBefore(f,line.nextSibling);
-			//par.insertBefore(f,line);
-			//line.insertAdjacentElement('afterend',htmlContent);
-			//console.log(line);
-			//console.log(form);
+				var drow = document.createElement("div");
+				drow.setAttribute('class',"row");
+	
+				var dcol1 = document.createElement("div");
+				dcol1.setAttribute('class',"col");
+	
+				var dcol2 = document.createElement("div");
+				dcol2.setAttribute('class',"col");
+
+				var dcol3 = document.createElement("div");
+				dcol3.setAttribute('class',"col");
+			
+				var dcol4 = document.createElement("div");
+				dcol4.setAttribute('class',"col");
+			
+				var dcol5 = document.createElement("div");
+				dcol5.setAttribute('class',"col");
+	
+				var c = document.createElement("input");
+				c.setAttribute('type',"text");
+				c.setAttribute('name',"idM");	
+				c.setAttribute('placeholder',"Coordonnees");
+				c.setAttribute('class',"form-control");
+			
+				var p = document.createElement("input");
+				p.setAttribute('type',"text");
+				p.setAttribute('name',"idM");	
+				p.setAttribute('placeholder',"Pays");
+				p.setAttribute('class',"form-control");
+			
+				var v = document.createElement("input");
+				v.setAttribute('type',"text");
+				v.setAttribute('name',"idM");	
+				v.setAttribute('placeholder',"Ville");
+				v.setAttribute('class',"form-control");
+			
+				var l = document.createElement("input");
+				l.setAttribute('type',"text");
+				l.setAttribute('name',"idM");	
+				l.setAttribute('placeholder',"Localisation");
+				l.setAttribute('class',"form-control");
+			
+				var b = document.createElement("button");
+				b.setAttribute('type',"submit");
+				b.setAttribute('class',"btn btn-primary");
+
+				var s = document.createElement("span");
+				s.setAttribute('style',"font-size:10px");
+
+				var t = document.createTextNode("Valider modifications pour "+id);
+	
+				s.appendChild(t);
+				b.appendChild(s);
+				dcol1.appendChild(c);
+				dcol2.appendChild(p);
+				dcol3.appendChild(v);
+				dcol4.appendChild(l);
+				dcol5.appendChild(b);
+				drow.append(dcol1, dcol2, dcol3, dcol4, dcol5);
+				f.appendChild(drow);
+				div.appendChild(f);
+
+				listForm.push(id);
+			}
+			else{
+				
+				var div=document.getElementById(DIV);
+				var form=document.getElementById(id+'F');
+				const index = listForm.indexOf(id);
+				listForm.splice(index,1);
+				div.removeChild(form);
+				
+			}
 		}
-    	</script>
+    	</script>	
     </body> 
 </html>
          
