@@ -110,9 +110,9 @@
 		</style>
 		<title>Carte</title>
 	</head>
-	<body>
+	<body style="background-color:#E2EEFF;">
 	<?php include("navBar.php"); ?>
-		<div id="map" style="position:relative; top:20px;">
+		<div id="map">
 			<!-- Ici s'affichera la carte -->
 		</div>
 	</body>

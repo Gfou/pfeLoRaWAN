@@ -12,7 +12,7 @@ session_start();
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
     </head>
 
-    <body>
+    <body style="background-color:#F1F4FF;">
     <?php
     try{
 	    // On se connecte a postgres
@@ -27,7 +27,7 @@ session_start();
     <?php include("navBar.php"); ?>
     <?php include("barreRechercheBalise.php"); ?>
     <div id="add"></div>
-    <table class="table" style="position:relative; top: 15px;">
+    <table class="table" style="position:relative; top: 15px; background-color:white;">
         <thead class="thead-dark">
             <tr>
              <th scope="col">#</th>

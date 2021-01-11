@@ -1,4 +1,4 @@
-<form method="post" action="index.php" style="position:relative; left: 15px;">
+<form method="post" action="index.php" style="position:relative;left: 15px; background-color:#F1F4FF">
   	<div class="row">
     		<div class="col">
 	   		<select class="browser-default custom-select" name="id" id="id">

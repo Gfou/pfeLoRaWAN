@@ -31,7 +31,7 @@ session_start();
 		$requete=$requete->fetch();
 		if(!empty($requete)){
 			$_SESSION['login']=1;
-			header('Location: gestionCapteurs.php');
+			header('Location: index.php');
 		}
 		else{
 			$erreur=1;
