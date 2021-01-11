@@ -27,7 +27,12 @@
     			<button type="submit" class="btn btn-primary">Valider la recherche</button>
 		</div>
 		<div class="col">
-			<button type="image" class="btn btn-primary" style="position:relative; margin-left:50%;"><img src="img/sensor.png" alt="sensor" /> Add a sensor</button>
+			<button type="button" class="btn btn-primary" style="position:relative; margin-left:50%;" 	
+				<?php if(empty($_SESSION['login'])){ ?>
+					onclick="document.location.href='login.php';"
+				<?php }else{ ?>
+					onclick="del();"
+				<?php  }?>><img src="img/sensor.png" alt="sensor"/> Add a sensor</button>
 		</div>
 
   	</div>

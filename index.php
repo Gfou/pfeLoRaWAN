@@ -26,6 +26,7 @@ session_start();
     <?php include("listeRequete.php"); ?>
     <?php include("navBar.php"); ?>
     <?php include("barreRechercheBalise.php"); ?>
+    <div id="add"></div>
     <table class="table" style="position:relative; top: 15px;">
         <thead class="thead-dark">
             <tr>
@@ -119,7 +120,8 @@ session_start();
 	</table> 
 	<script> 
 
-		listForm=[];
+		var listForm=[];
+		var indiceOpen=0;
 
 		function newLine(id){
 			var ID=id+'C';
@@ -231,6 +233,133 @@ session_start();
 
 		function disable(id){
 			document.location.href='gestionCapteurs/desactivation.php?id='+id;
+		}
+
+
+		function del(){
+				
+			var div=document.getElementById('add');
+			if (indiceOpen==0){	
+				var f = document.createElement("FORM");
+				f.setAttribute('id',"addForm");
+				f.setAttribute('method',"post");
+				f.setAttribute('action',"gestionCapteurs/ajout.php");
+				f.setAttribute('style',"position:relative; margin-left:15px; margin-top:1%;");
+
+				var drow = document.createElement("div");
+				drow.setAttribute('class',"row");
+	
+				var dcol1 = document.createElement("div");
+				dcol1.setAttribute('class',"col");
+	
+				var dcol2 = document.createElement("div");
+				dcol2.setAttribute('class',"col");
+
+				var dcol3 = document.createElement("div");
+				dcol3.setAttribute('class',"col");
+			
+				var dcol4 = document.createElement("div");
+				dcol4.setAttribute('class',"col");
+			
+				var dcol5 = document.createElement("div");
+				dcol5.setAttribute('class',"col");
+
+				var dcol6 = document.createElement("div");
+				dcol6.setAttribute('class',"col");
+
+				var i = document.createElement("select");
+				<?php $reponse=$bdd->query('SELECT id FROM unregistred_sensor');?>
+				var infos =JSON.parse('<?php echo json_encode($reponse->fetchAll(), true); ?>');
+				if (infos.length>0){
+					i.setAttribute('class',"brower-default custom-select");
+					i.setAttribute('name',"idA");
+					i.setAttribute('id',"idA");
+					var opt = document.createElement("option");
+					opt.setAttribute('disabled',"disabled");
+					opt.setAttribute('selected',"selected");
+					var tex = document.createTextNode("Select id");
+					opt.appendChild(tex);
+					i.appendChild(opt);
+					for(var j=0; j<infos.length; j++){
+						var o = document.createElement("option");
+						o.setAttribute('value',infos[j]['id']);
+						var t = document.createTextNode(infos[j]['id']);
+						o.appendChild(t);
+						i.appendChild(o);
+					}
+
+				}
+				else{
+					var opt = document.createElement("option");
+					opt.setAttribute('disabled',"disabled");
+					var tex = document.createTextNode("Select id");
+					opt.appendChild(tex);
+					i.appendChild(opt);
+				}
+
+				console.log(infos);
+				i.setAttribute('type',"text");
+				i.setAttribute('name',"idA");	
+				i.setAttribute('placeholder',"Id Balise");
+				i.setAttribute('class',"form-control");
+				i.setAttribute('required',"required");
+	
+				var c = document.createElement("input");
+				c.setAttribute('type',"text");
+				c.setAttribute('name',"coordonneesA");	
+				c.setAttribute('placeholder',"Coordonnees");
+				c.setAttribute('class',"form-control");	
+				c.setAttribute('required',"required");
+			
+				var p = document.createElement("input");
+				p.setAttribute('type',"text");
+				p.setAttribute('name',"paysA");	
+				p.setAttribute('placeholder',"Pays");
+				p.setAttribute('class',"form-control");
+				p.setAttribute('required',"required");
+
+				var v = document.createElement("input");
+				v.setAttribute('type',"text");
+				v.setAttribute('name',"villeA");	
+				v.setAttribute('placeholder',"Ville");
+				v.setAttribute('class',"form-control");
+				v.setAttribute('required',"required");
+				
+				var l = document.createElement("input");
+				l.setAttribute('type',"text");
+				l.setAttribute('name',"localisationA");	
+				l.setAttribute('placeholder',"Localisation");
+				l.setAttribute('class',"form-control");
+				l.setAttribute('required',"required");
+
+				var b = document.createElement("button");
+				b.setAttribute('type',"submit");
+				b.setAttribute('class',"btn btn-primary");
+
+				var s = document.createElement("span");
+				s.setAttribute('style',"font-size:15px");
+
+				var t = document.createTextNode("Confirm ?");
+	
+				s.appendChild(t);
+				b.appendChild(s);
+				dcol1.appendChild(i);
+				dcol2.appendChild(p);
+				dcol3.appendChild(v);
+				dcol4.appendChild(l);
+				dcol5.appendChild(c);
+				dcol6.appendChild(b);
+				drow.append(dcol1, dcol2, dcol3, dcol4, dcol5, dcol6);
+				f.appendChild(drow);
+				div.appendChild(f);
+				indiceOpen=1;
+			}
+			else{
+				var form=document.getElementById('addForm');
+				div.removeChild(form);
+				indiceOpen=0;
+			}
+
 		}
 
     	</script>	

@@ -67,23 +67,31 @@ if($_GET['event']=="up"){
 	$requete->execute(array('id'=>$id));
 	$requete=$requete->fetch();
 	if (empty($requete)){
-		$requete=$bdd->prepare('INSERT INTO unregistered_sensor VALUES (:id)';
+		$requete=$bdd->prepare('SELECT * FROM unregistred_sensor WHERE id=:id');
 		$requete->execute(array('in'=>$id));
+		if(empty($requete)){
+			$requete=$bdd->prepare('INSERT INTO unregistred_sensor VALUES (:id,:niv,:in)');
+			$requete->execute(array('in'=>$id,'niv'=>$niveau, 'in'=>$inondee));
+		}
+		else{
+			$requete=$bdd->prepare('UPDATE unregistred_sensor SET inondee=:in, niveau=:niv');
+			$requete=$bdd->execute(array('in'=>$inondee, 'niv'=>$niveau));
+		}
 	}
 	else if($requete['enable']==true){
 	
 	//des qu'une donnee ajoute on met a jour la table balises
-	$requete=$bdd->prepare('UPDATE balises 
+		$requete=$bdd->prepare('UPDATE balises 
 		       		SET inondee=:in, niveau=:niv  
 		       		WHERE id=:id');
-	$requete->execute(array('in'=>$inondee, 'niv'=>$niveau, 'id'=>$id));
+		$requete->execute(array('in'=>$inondee, 'niv'=>$niveau, 'id'=>$id));
 	
 
 	//on veirfie si la balise es active avant de stocker en base
-	$ajrd=date("Y-m-d h:i:s A");
+		$ajrd=date("Y-m-d h:i:s A");
 		$requete=$bdd->prepare('INSERT INTO historique_balise
 					VALUES (DEFAULT,:id,:d,:niv,:in)');
-	$requete->execute(array('id'=>$id,'d'=>$ajrd, 'niv'=>$niveau, 'in'=>$inondee));
+		$requete->execute(array('id'=>$id,'d'=>$ajrd, 'niv'=>$niveau, 'in'=>$inondee));
 	
 	}
 }

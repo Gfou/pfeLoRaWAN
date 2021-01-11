@@ -86,7 +86,7 @@ $req19='UPDATE balises SET ville=:ville WHERE id=:id';
 
 $req20='UPDATE balises SET localisation=:localisation WHERE id=:id';
 			 
-$req21='INSERT INTO balises VALUES(:id,:pays,:ville,:localisation,:coordonnees,0,\'NON\')';
+$req21='INSERT INTO balises VALUES(:id,:pays,:ville,:localisation,:coordonnees,0,\'NON\',true)';
 
 $req22='DELETE FROM balises WHERE id=:id';
 
@@ -95,4 +95,6 @@ $req23='SELECT id FROM balises';
 $req24='SELECT localisation FROM balises';
 
 $req25='UPDATE balises SET enable = CASE enable WHEN true THEN false WHEN false THEN true END WHERE id=:id';
+
+$req26='DELETE FROM unregistred_sensor WHERE id=:id';
 ?>
