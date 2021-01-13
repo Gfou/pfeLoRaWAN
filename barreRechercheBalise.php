@@ -31,7 +31,7 @@
 				<?php if(empty($_SESSION['login'])){ ?>
 					onclick="document.location.href='login.php';"
 				<?php }else{ ?>
-					onclick="del();"
+					onclick="addSensor();"
 				<?php  }?>><img src="img/sensor.png" alt="sensor"/> Add a sensor</button>
 		</div>
 

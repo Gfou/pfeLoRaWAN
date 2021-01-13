@@ -62,24 +62,11 @@ if($_GET['event']=="up"){
 	//fwrite($fp,$id." ".$niveau." ".$inondee."\r\n");
 	fclose($fp);
 
-	//On verifie si la balise est deja enregistre
+	//On verifie si la balise est active
 	$requete=$bdd->prepare('SELECT enable FROM balises WHERE id=:id');
 	$requete->execute(array('id'=>$id));
 	$requete=$requete->fetch();
-	if (empty($requete)){
-		$requete=$bdd->prepare('SELECT * FROM unregistred_sensor WHERE id=:id');
-		$requete->execute(array('in'=>$id));
-		if(empty($requete)){
-			$requete=$bdd->prepare('INSERT INTO unregistred_sensor VALUES (:id,:niv,:in)');
-			$requete->execute(array('in'=>$id,'niv'=>$niveau, 'in'=>$inondee));
-		}
-		else{
-			$requete=$bdd->prepare('UPDATE unregistred_sensor SET inondee=:in, niveau=:niv');
-			$requete=$bdd->execute(array('in'=>$inondee, 'niv'=>$niveau));
-		}
-	}
-	else if($requete['enable']==true){
-	
+	if ($requete['enable']==true){
 	//des qu'une donnee ajoute on met a jour la table balises
 		$requete=$bdd->prepare('UPDATE balises 
 		       		SET inondee=:in, niveau=:niv  
