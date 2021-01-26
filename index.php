@@ -38,13 +38,13 @@ session_start();
         <thead class="thead-dark">
             <tr>
              <th scope="col">#</th>
-             <th scope="col">ID balise</th>
-             <th scope="col">Pays</th>
-             <th scope="col">Ville</th>
-             <th scope="col">Localisation</th>
-             <th scope="col">Coordonnées</th>
-             <th scope="col">Niveau (cm)</th>
-	     <th scope="col">Inondée</th>
+             <th scope="col">ID</th>
+             <th scope="col">Country</th>
+             <th scope="col">City</th>
+             <th scope="col">Location</th>
+             <th scope="col">Coordinates</th>
+             <th scope="col">Level (cm)</th>
+	     <th scope="col">Flooded</th>
 	     <th scope="col">Enable</th>
 	     <th scope="col">Options</th>
 	   </tr>

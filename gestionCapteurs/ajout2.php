@@ -41,7 +41,6 @@ curl_close($ch);
 
 echo $result;
 $result=json_decode($result,true);
-echo " fock ";
 echo $result['code'];
 if($result==null){
 	include("../listeRequete.php"); 

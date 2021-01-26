@@ -43,13 +43,13 @@ session_start();
 	</div>
 	<form method="post" action="login.php" style="position:absolute; left:42.5%; top:350px"> 
 		<div class="row">
-		<input type="text" class="form-control" name="login" <?php if(empty($erreur)){?> placeholder="Login"<?php }else{?>placeholder="Erreur connexion" style="border:solid red 1px;"<?php } ?>/>
+		<input type="text" class="form-control" name="login" <?php if(empty($erreur)){?> placeholder="Login"<?php }else{?>placeholder="Connection error" style="border:solid red 1px;"<?php } ?>/>
 		</div>
 		<div class="row" style="position:relative; top:10px">
-		<input type="password" class="form-control" name="mdp" <?php if(empty($erreur)){?>placeholder="Mot de passe"<?php }else{?>placeholder="Reessayez" style="border:solid red 1px;"<?php } ?></>
+		<input type="password" class="form-control" name="mdp" <?php if(empty($erreur)){?>placeholder="Password"<?php }else{?>placeholder="Try again" style="border:solid red 1px;"<?php } ?></>
 		</div>
 		<div class="row" style="position:relative; top:20px; left:50px">
-			<button type="submit" class="btn btn-primary">Connexion</button>
+			<button type="submit" class="btn btn-primary">Connection</button>
 		</div>
 	</form>
     </body>

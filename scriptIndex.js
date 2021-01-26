@@ -45,25 +45,25 @@
 				var c = document.createElement("input");
 				c.setAttribute('type',"text");
 				c.setAttribute('name',"coordonneesM");	
-				c.setAttribute('placeholder',"Coordonnees");
+				c.setAttribute('placeholder',"Coordinates");
 				c.setAttribute('class',"form-control");
 			
 				var p = document.createElement("input");
 				p.setAttribute('type',"text");
 				p.setAttribute('name',"paysM");	
-				p.setAttribute('placeholder',"Pays");
+				p.setAttribute('placeholder',"Country");
 				p.setAttribute('class',"form-control");
 			
 				var v = document.createElement("input");
 				v.setAttribute('type',"text");
 				v.setAttribute('name',"villeM");	
-				v.setAttribute('placeholder',"Ville");
+				v.setAttribute('placeholder',"City");
 				v.setAttribute('class',"form-control");
 			
 				var l = document.createElement("input");
 				l.setAttribute('type',"text");
 				l.setAttribute('name',"localisationM");	
-				l.setAttribute('placeholder',"Localisation");
+				l.setAttribute('placeholder',"Location");
 				l.setAttribute('class',"form-control");
 			
 				var b = document.createElement("button");
@@ -73,7 +73,7 @@
 				var s = document.createElement("span");
 				s.setAttribute('style',"font-size:10px");
 
-				var t = document.createTextNode("Valider modifications pour "+id);
+				var t = document.createTextNode("Confirm modification for "+id);
 	
 				s.appendChild(t);
 				b.appendChild(s);
@@ -149,35 +149,35 @@
 
 				i.setAttribute('type',"text");
 				i.setAttribute('name',"idA");	
-				i.setAttribute('placeholder',"Id Balise");
+				i.setAttribute('placeholder',"Id");
 				i.setAttribute('class',"form-control");
 				i.setAttribute('required',"required");
 	
 				var c = document.createElement("input");
 				c.setAttribute('type',"text");
 				c.setAttribute('name',"coordonneesA");	
-				c.setAttribute('placeholder',"Coordonnees");
+				c.setAttribute('placeholder',"Coordinates");
 				c.setAttribute('class',"form-control");	
 				c.setAttribute('required',"required");
 			
 				var p = document.createElement("input");
 				p.setAttribute('type',"text");
 				p.setAttribute('name',"paysA");	
-				p.setAttribute('placeholder',"Pays");
+				p.setAttribute('placeholder',"Country");
 				p.setAttribute('class',"form-control");
 				p.setAttribute('required',"required");
 
 				var v = document.createElement("input");
 				v.setAttribute('type',"text");
 				v.setAttribute('name',"villeA");	
-				v.setAttribute('placeholder',"Ville");
+				v.setAttribute('placeholder',"City");
 				v.setAttribute('class',"form-control");
 				v.setAttribute('required',"required");
 				
 				var l = document.createElement("input");
 				l.setAttribute('type',"text");
 				l.setAttribute('name',"localisationA");	
-				l.setAttribute('placeholder',"Localisation");
+				l.setAttribute('placeholder',"Location");
 				l.setAttribute('class',"form-control");
 				l.setAttribute('required',"required");
 
@@ -188,7 +188,7 @@
 				var s = document.createElement("span");
 				s.setAttribute('style',"font-size:15px");
 
-				var t = document.createTextNode("Confirm ?");
+				var t = document.createTextNode("Confirm");
 	
 				s.appendChild(t);
 				b.appendChild(s);

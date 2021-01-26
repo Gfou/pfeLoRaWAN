@@ -28,13 +28,13 @@
             <tr>
             <th scope="col">#</th>
              <th scope="col">ID</th>
-             <th scope="col">ID balise</th>
+             <th scope="col">sensor's id</th>
              <th scope="col">Date</th>
-             <th scope="col">Pays</th>
-             <th scope="col">Ville</th>
-             <th scope="col">Localisation</th>
-             <th scope="col">Niveau (cm)</th>
-             <th scope="col">Inondee</th>
+             <th scope="col">Country</th>
+             <th scope="col">City</th>
+             <th scope="col">Location</th>
+             <th scope="col">Level (cm)</th>
+             <th scope="col">Flooded</th>
             </tr>
         </thead>
 
@@ -183,7 +183,7 @@
     <?php
     }
     else{?>
-        <p style="position:relative; top:15px; font-weight:bold" ><img src="attention.png" alt="attention"/>Attention veuillez renseigner  au moins une ID et/ou une localisation</p>
+        <p style="position:relative; top:15px; font-weight:bold" ><img src="attention.png" alt="attention"/>Please fill in at least one id and/or location</p>
     <?php
     }
     ?>

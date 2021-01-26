@@ -73,8 +73,6 @@ if($_GET['event']=="up"){
 		       		WHERE id=:id');
 		$requete->execute(array('in'=>$inondee, 'niv'=>$niveau, 'id'=>$id));
 	
-
-	//on veirfie si la balise es active avant de stocker en base
 		$ajrd=date("Y-m-d h:i:s A");
 		$requete=$bdd->prepare('INSERT INTO historique_balise
 					VALUES (DEFAULT,:id,:d,:niv,:in)');

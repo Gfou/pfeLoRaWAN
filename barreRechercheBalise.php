@@ -2,7 +2,7 @@
   	<div class="row">
     		<div class="col">
 	   		<select class="browser-default custom-select" name="id" id="id">
-		 		<option disabled selected>Recherche par balise</option>
+		 		<option disabled selected>Search by id</option>
 		 		<?php
 		  		$reponse=$bdd->query($req23);
 		  		while($donnees=$reponse->fetch()){?>
@@ -14,7 +14,7 @@
     		</div>
 		<div class="col">
 			<select class="browser-default custom-select" name="localisation" id="localisation">
-		 		<option disabled selected>Recherche par localisation</option>
+		 		<option disabled selected>Search by location</option>
 		 		<?php
 		  		$reponse=$bdd->query($req24);
 		  		while($donnees=$reponse->fetch()){?>
@@ -24,7 +24,7 @@
       	<!--		<input type="text" class="form-control" placeholder="Localisation" name="localisation"> -->
     		</div>
     		<div class="col">
-    			<button type="submit" class="btn btn-primary">Valider la recherche</button>
+    			<button type="submit" class="btn btn-primary">Confirm</button>
 		</div>
 		<div class="col">
 			<button type="button" class="btn btn-primary" style="position:relative; margin-left:50%;" 	
