@@ -28,8 +28,8 @@
     <?php
     
     if(!empty($_POST['id']) OR !empty($_POST['localisation'])){ ?>
-       <div id="table" style="float:left; overflow:scroll; max-height:700px; position:relative; top:100px;">
-	 <table class="table table-striped table-dark" style="position:relative;">
+       <div id="table" style="float:left; overflow:scroll; max-height:400px; width:600px; position:relative; top:40px;">
+	 <table class="table table-striped table-dark" style="position:relative; width:50%;">
           <thead>
             <tr>
             <th scope="col">#</th>
@@ -186,7 +186,7 @@
 	</table>
 	</div>
 	<div id="graph" style="float:right;">
-	<canvas id="graphique" width="900px" height="700px" style="position:relative; margin-right:35px; margin-top:100px;"></canvas>
+	<canvas id="graphique" width="500px" height="400px" style="position:relative; margin-right:35px; margin-top:10px;"></canvas>
 	</div>
 	<script>
 		// l'identifiant est celui du canevas
